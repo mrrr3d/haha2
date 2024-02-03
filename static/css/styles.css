@@ -1,0 +1,68 @@
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    /* float: right; */
+}
+
+#leftPanel {
+    width: 18%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+#leftPanel ul {
+    list-style-type: none;
+}
+
+#leftPanel ul li {
+    margin-bottom: 10px; /* 或者 margin: 10px 0; */
+    /* background-color: aqua; */
+}
+
+.item_selected {
+    background-color:aqua;
+    /* color: #fff; */
+}
+
+
+#container {
+    width: 82%;
+    height: 100%;
+    float: right;
+}
+
+.custom-content-marker {
+    position: relative;
+    width: 25px;
+    height: 34px;
+}
+
+.custom-content-marker img {
+    width: 100%;
+    height: 100%;
+}
+
+.custom-content-marker .close-btn {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    width: 15px;
+    height: 15px;
+    font-size: 12px;
+    background: #ccc;
+    border-radius: 50%;
+    color: #fff;
+    text-align: center;
+    line-height: 15px;
+    box-shadow: -1px 1px 1px rgba(10, 10, 10, .2);
+}
+
+.custom-content-marker .close-btn:hover {
+    background: #666;
+}

@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+    <title>HELLO,AMAP!</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <div id="container"></div>
+    
+    <div id="leftPanel">
+        <form id="logout-form" method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Log out</button>
+        </form>
+        <ul>
+            {% for item in logdata %}
+            <li id="item_{{ item.0 }}" selected_flag="false" num="{{ item.0 }}" brand="{{ item.1 }}" time="{{ item.2 }}" longti="{{ item.3 }}" lati="{{ item.4 }}">
+                <label>
+                    <span>{{ item.0 }}&emsp;{{ item.1 }}&emsp;{{ item.2 }}<br>
+                    经度: {{ item.3 }}<br>
+                    纬度: {{ item.4 }}</span><br>
+                </label>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script src="https://webapi.amap.com/loader.js"></script>
+    <script src="{% static 'javascript/script.js' %}"></script>
+</body>
+
+</html>
