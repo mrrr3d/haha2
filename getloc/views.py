@@ -4,13 +4,15 @@ from django.contrib.auth.decorators import login_required
 import os
 
 def get_log_data():
-    os.system("cat ~/andlog | tail -n 100 | cut -d ':' -f 2 > tmplog")
+    os.system("cat ~/andlog | tail -n 500 | cut -d ':' -f 2 > tmplog")
     log_data = []
     with open ('tmplog', 'r') as f:
         lines = f.readlines()
         for line in lines:
             parts = line.strip()
-            log_data.append(parts.split(','))
+            onePart = parts.split(',')
+            if len(onePart) == 4:
+                log_data.append(onePart)
     for t in log_data:
         l = list(t[1])
         l.insert(12, ':')
