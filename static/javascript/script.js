@@ -20,7 +20,6 @@ function loadMap() {
             center: [markerPositions[0][1], markerPositions[0][2]],
         });
 
-        console.log(markerPositions)
         for (var i = 0; i < markerPositions.length; i++) {
             const markerContent = `<div class="custom-content-marker">
                 <img src="//a.amap.com/jsapi_demos/static/demo-center/icons/dir-via-marker.png">
@@ -79,4 +78,28 @@ function handleClick(event) {
         markerPositions.push(position);
     }
     loadMap();
+}
+
+function queryData() {
+    var startStr = document.getElementById("start-input").value;
+    var endStr = document.getElementById("end-input").value;
+    var start = parseInt(startStr);
+    var end = parseInt(endStr);
+
+    for (var i = start;i <= end;i ++) {
+        var isSelected = items[i - 1].getAttribute('selected_flag');
+        if (isSelected === 'false') {
+            items[i - 1].click();
+        }
+    }
+}
+
+function lastChooseNum (val) {
+    var valint = parseInt(val)
+    for (var i = 1;i <= valint;i ++) {
+        var isSelected = items[i - 1].getAttribute('selected_flag');
+        if (isSelected === 'false') {
+            items[i - 1].click();
+        }
+    }
 }
