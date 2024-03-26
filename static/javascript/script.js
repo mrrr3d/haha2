@@ -112,8 +112,6 @@ function lastChooseNum (val) {
 function adjustLayout () {
     var width = window.innerWidth;
     var height = window.innerHeight;
-    console.log(width)
-    console.log(height)
     if (width < height) {
         document.getElementById('leftPanel').style.width = '100%';
         document.getElementById('leftPanel').style.height = '35%';
