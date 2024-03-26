@@ -43,6 +43,11 @@ function loadMap() {
 
 var location_list = document.getElementById("leftPanel");
 var items = location_list.getElementsByTagName('li');
+// 当窗口大小改变时调整布局
+window.addEventListener('resize', adjustLayout);
+
+// 页面加载完成时立即调整布局
+window.addEventListener('load', adjustLayout);
 
 for (var i = 0; i < items.length; i++) {
     items[i].addEventListener('click', handleClick);
@@ -101,5 +106,24 @@ function lastChooseNum (val) {
         if (isSelected === 'false') {
             items[i - 1].click();
         }
+    }
+}
+
+function adjustLayout () {
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+    console.log(width)
+    console.log(height)
+    if (width < height) {
+        document.getElementById('leftPanel').style.width = '100%';
+        document.getElementById('leftPanel').style.height = '35%';
+        document.getElementById('container').style.width = '100%';
+        document.getElementById('container').style.height = '65%';
+    }
+    else {
+        document.getElementById('leftPanel').style.width = '18%';
+        document.getElementById('leftPanel').style.height = '100%';
+        document.getElementById('container').style.width = '82%';
+        document.getElementById('container').style.height = '100%';
     }
 }
