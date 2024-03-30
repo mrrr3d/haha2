@@ -1,9 +1,9 @@
 window._AMapSecurityConfig = {
-    securityJsCode: "",
+    serviceHost:'http://127.0.0.1:80/_AMapService',
 };
 
 var loader = AMapLoader.load({
-    key: "",
+    key: "36714d35610a41653e12085d040c0310",
     version: "2.0",
 });
 

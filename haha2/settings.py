@@ -26,6 +26,9 @@ SECRET_KEY = 'django-insecure-fd0y3s^zv6z0l_%p3_i6qv@m7$-s91!@#oszyj$ph72lc@3go*
 DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1"]
+pubIP = os.getenv('pubIP', False)
+if pubIP != False:
+    ALLOWED_HOSTS.append(pubIP)
 
 
 # Application definition
