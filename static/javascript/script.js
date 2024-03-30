@@ -92,6 +92,15 @@ function lastChooseNum (val) {
     }
 }
 
+function clearChooseItems () {
+    for (var i = 1;i < items.length;i ++) {
+        var isSelected = items[i].getAttribute('selected_flag');
+        if (isSelected === 'true') {
+            items[i].click();
+        }
+    }
+}
+
 function trafficButton () {
     if (trafficLayerVisible) {
         map.removeLayer(trafficLayer);
