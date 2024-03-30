@@ -2,50 +2,16 @@ window._AMapSecurityConfig = {
     serviceHost:'http://127.0.0.1:80/_AMapService',
 };
 
-var loader = AMapLoader.load({
-    key: "36714d35610a41653e12085d040c0310",
-    version: "2.0",
+var markerMap = new Map();
+var map = new AMap.Map('container', {
+    viewMode: '2D', // 默认使用 2D 模式，如果希望使用带有俯仰角的 3D 模式，请设置 viewMode: '3D'
+    zoom: 12, // 初始化地图层级
 });
-
-var markerPositions = [];
-
-function loadMap() {
-    loader.then((AMap) => {
-
-        
-        var map = new AMap.Map("container", {
-            mapStyle: "amap://styles/normal",
-            viewMode: '2D',
-            zoom: 12,
-            center: [markerPositions[0][1], markerPositions[0][2]],
-        });
-
-        for (var i = 0; i < markerPositions.length; i++) {
-            const markerContent = `<div class="custom-content-marker">
-                <img src="//a.amap.com/jsapi_demos/static/demo-center/icons/dir-via-marker.png">
-                </div>`;
-            let position = new AMap.LngLat(markerPositions[i][1], markerPositions[i][2]);
-
-            marker = new AMap.Marker({
-                position: position,
-                content: markerContent,
-                title: markerPositions[i][0],
-                offset: new AMap.Pixel(-13, -30),
-            });
-            map.add(marker);
-        }
-    }).catch((e) => {
-        console.error(e);
-    });
-}
-
-
 
 var location_list = document.getElementById("leftPanel");
 var items = location_list.getElementsByTagName('li');
 // 当窗口大小改变时调整布局
 window.addEventListener('resize', adjustLayout);
-
 // 页面加载完成时立即调整布局
 window.addEventListener('load', adjustLayout);
 
@@ -55,34 +21,46 @@ for (var i = 0; i < items.length; i++) {
 
 if (items.length > 0) {
     items[0].click();
+    let pos = markerMap.get(1);
+    map.setCenter ([pos[0], pos[1]]);
+}
+
+function addMarker(num, pos) {
+    const markerContent = `<div class="custom-content-marker">
+                <img src="//a.amap.com/jsapi_demos/static/demo-center/icons/dir-via-marker.png">
+                </div>`;
+
+    let marker = new AMap.Marker({
+        position: new AMap.LngLat(pos[0], pos[1]),
+        content: markerContent,
+        title: num,
+        offset: new AMap.Pixel(-13, -30),
+    });
+    map.add(marker);
+    return marker;
 }
 
 function handleClick(event) {
     var item = event.target.closest('li');
     var isSelected = item.getAttribute('selected_flag');
-    var num = item.getAttribute('num')
+    var num = parseInt(item.getAttribute('num'));
     var longitude = parseFloat(item.getAttribute('longti'));
     var latitude = parseFloat(item.getAttribute('lati'));
-    var position = [num, longitude, latitude];
+    var position = [longitude, latitude];
 
+    // delete marker
     if (isSelected === 'true') {
         item.setAttribute('selected_flag', "false");
         document.getElementById(item.id).classList.toggle("item_selected");
-    } else {
+        map.remove(markerMap.get(num)[2]);
+        markerMap.delete(num);
+    } else { // add new marker
         item.setAttribute('selected_flag', "true");
         document.getElementById(item.id).classList.add("item_selected");
+        let newMarker = addMarker(num, position);
+        position.push(newMarker);
+        markerMap.set(num, position);
     }
-    if (isSelected === 'true') {
-        var index = markerPositions.findIndex(function (pos) {
-            return pos[1] === longitude && pos[2] === latitude;
-        });
-        if (index !== -1) {
-            markerPositions.splice(index, 1);
-        }
-    } else {
-        markerPositions.push(position);
-    }
-    loadMap();
 }
 
 function queryData() {
