@@ -20,12 +20,15 @@
             <button type="submit">Log out</button>
         </form>
         <div>
-            <p>from<input type="number" id="start-input" value="1" class="short-input">to<input type="number" id="end-input" value="1" class="short-input"> </p>
-            <button onclick="queryData()" class="range-btn">OK</button>
-            <button onclick="lastChooseNum(10)" class="range-btn">:10</button>
-            <button onclick="lastChooseNum(20)" class="range-btn">:20</button>
-            <button onclick="lastChooseNum(30)" class="range-btn">:30</button>
-            <button onclick="lastChooseNum(50)" class="range-btn">:50</button>
+            <p>
+                from<input type="number" id="start-input" value="1" class="short-input">to<input type="number" id="end-input" value="1" class="short-input">
+                <button onclick="queryData()" class="range-btn">OK</button>
+                <button onclick="lastChooseNum(10)" class="range-btn">:10</button>
+                <button onclick="lastChooseNum(20)" class="range-btn">:20</button>
+                <button onclick="lastChooseNum(30)" class="range-btn">:30</button>
+                <button onclick="lastChooseNum(50)" class="range-btn">:50</button>
+                <button onclick="trafficButton()" class="traffic-btn">Traffic</button>
+            </p>
         </div>
         <ul>
             {% for item in logdata %}

@@ -59,6 +59,13 @@ body {
     height: 30px;
     font-size: 18px;
 }
+
+.traffic-btn {
+    width: 60px;
+    height: 30px;
+    font-size: 18px;
+}
+
 .custom-content-marker .close-btn {
     position: absolute;
     top: -6px;

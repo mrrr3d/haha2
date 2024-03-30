@@ -7,6 +7,11 @@ var map = new AMap.Map('container', {
     viewMode: '2D', // 默认使用 2D 模式，如果希望使用带有俯仰角的 3D 模式，请设置 viewMode: '3D'
     zoom: 12, // 初始化地图层级
 });
+var trafficLayer = new AMap.TileLayer.Traffic({
+    zIndex: 10,
+    zooms: [7, 22],
+});
+var trafficLayerVisible = false;
 
 var location_list = document.getElementById("leftPanel");
 var items = location_list.getElementsByTagName('li');
@@ -84,6 +89,16 @@ function lastChooseNum (val) {
         if (isSelected === 'false') {
             items[i - 1].click();
         }
+    }
+}
+
+function trafficButton () {
+    if (trafficLayerVisible) {
+        map.removeLayer(trafficLayer);
+        trafficLayerVisible = false;
+    } else {
+        map.addLayer(trafficLayer);
+        trafficLayerVisible = true;
     }
 }
 
