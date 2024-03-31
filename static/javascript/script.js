@@ -1,5 +1,5 @@
 window._AMapSecurityConfig = {
-    serviceHost:'http://127.0.0.1:80/_AMapService',
+    serviceHost:'http://127.0.0.1:88/_AMapService',
 };
 
 var markerMap = new Map();
