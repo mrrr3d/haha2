@@ -115,7 +115,8 @@ function trafficButton () {
 
 function reloadLogData () {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/getloc/reload_log_data', true);
+    var timestamp = (new Date()).getTime();
+    xhr.open('GET', '/getloc/reload_log_data/?timestamp=' + timestamp, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
