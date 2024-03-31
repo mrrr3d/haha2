@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 import os
 
 def get_log_data():
-    os.system("cat ~/andlog | tail -n 500 | cut -d ':' -f 2 > tmplog")
+    os.system("cat ~/andlog | tail -n 1000 | cut -d ':' -f 2 > tmplog")
     log_data = []
     with open ('tmplog', 'r') as f:
         lines = f.readlines()
@@ -31,3 +32,10 @@ def index(request):
     for i in range(len(logdata)):
         logdata[i].insert(0, i + 1)
     return render(request, "getloc/index.html", {'logdata': logdata})
+
+@login_required
+def reload_log_data(request):
+    logdata = get_log_data()
+    for i in range(len(logdata)):
+        logdata[i].insert(0, i + 1)
+    return JsonResponse(logdata, safe=False)

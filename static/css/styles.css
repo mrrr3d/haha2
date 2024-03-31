@@ -55,13 +55,9 @@ body {
 }
 
 .range-btn {
-    width: 50px;
-    height: 30px;
-    font-size: 18px;
-}
-
-.traffic-btn {
-    width: 60px;
+    /* width: 50px; */
+    padding-right:10px;
+    padding-left:10px;
     height: 30px;
     font-size: 18px;
 }

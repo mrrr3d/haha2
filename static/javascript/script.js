@@ -13,21 +13,24 @@ var trafficLayer = new AMap.TileLayer.Traffic({
 });
 var trafficLayerVisible = false;
 
-var location_list = document.getElementById("leftPanel");
-var items = location_list.getElementsByTagName('li');
+var items;
 // 当窗口大小改变时调整布局
 window.addEventListener('resize', adjustLayout);
 // 页面加载完成时立即调整布局
 window.addEventListener('load', adjustLayout);
+listItemsInit();
 
-for (var i = 0; i < items.length; i++) {
-    items[i].addEventListener('click', handleClick);
-}
-
-if (items.length > 0) {
-    items[0].click();
-    let pos = markerMap.get(1);
-    map.setCenter ([pos[0], pos[1]]);
+function listItemsInit () {
+    var location_list = document.getElementById("leftPanel");
+    items = location_list.getElementsByTagName('li');
+    for (var i = 0; i < items.length; i++) {
+        items[i].addEventListener('click', handleClick);
+    }
+    if (items.length > 0) {
+        items[0].click();
+        let pos = markerMap.get(1);
+        map.setCenter ([pos[0], pos[1]]);
+    }
 }
 
 function addMarker(num, pos) {
@@ -71,9 +74,8 @@ function handleClick(event) {
 function queryData() {
     var startStr = document.getElementById("start-input").value;
     var endStr = document.getElementById("end-input").value;
-    var start = parseInt(startStr);
-    var end = parseInt(endStr);
-
+    var start = Math.min(parseInt(startStr), items.length + 1);
+    var end = Math.min(parseInt(endStr), items.length + 1);
     for (var i = start;i <= end;i ++) {
         var isSelected = items[i - 1].getAttribute('selected_flag');
         if (isSelected === 'false') {
@@ -83,7 +85,7 @@ function queryData() {
 }
 
 function lastChooseNum (val) {
-    var valint = parseInt(val)
+    var valint = Math.min(parseInt(val), items.length + 1);
     for (var i = 1;i <= valint;i ++) {
         var isSelected = items[i - 1].getAttribute('selected_flag');
         if (isSelected === 'false') {
@@ -92,8 +94,8 @@ function lastChooseNum (val) {
     }
 }
 
-function clearChooseItems () {
-    for (var i = 1;i < items.length;i ++) {
+function clearChooseItems (startNum) {
+    for (var i = parseInt(startNum);i < items.length;i ++) {
         var isSelected = items[i].getAttribute('selected_flag');
         if (isSelected === 'true') {
             items[i].click();
@@ -109,6 +111,40 @@ function trafficButton () {
         map.addLayer(trafficLayer);
         trafficLayerVisible = true;
     }
+}
+
+function reloadLogData () {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/getloc/reload_log_data', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            clearChooseItems(0);
+            var data = JSON.parse(xhr.responseText);
+            var ul = document.querySelector("ul");
+            ul.innerHTML = '';
+            for (var i = 0;i < data.length;i ++) {
+                let item = data[i];
+                let li = document.createElement('li');
+                li.setAttribute('id', 'item_' + item[0]);
+                li.setAttribute('selected_flag', 'false');
+                li.setAttribute('num', item[0]);
+                li.setAttribute('brand', item[1]);
+                li.setAttribute('time', item[2]);
+                li.setAttribute('longti', item[3]);
+                li.setAttribute('lati', item[4]);
+                var label = document.createElement('label');
+                var span = document.createElement('span');
+                span.innerHTML = item[0] + '&emsp;' + item[1] + '&emsp;' + item[2] + '<br>经度: ' + item[3] + '<br>纬度: ' + item[4];
+                label.appendChild(span);
+                label.innerHTML += '<br>';
+                li.appendChild(label);
+                ul.appendChild(li);
+            }
+            listItemsInit();
+        }
+    }
+    xhr.send();
 }
 
 function adjustLayout () {
