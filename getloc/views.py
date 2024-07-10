@@ -13,6 +13,10 @@ def get_log_data():
             parts = line.strip()
             onePart = parts.split(',')
             if len(onePart) == 4:
+                onePart.append(-1)
+                log_data.append(onePart)
+            elif len(onePart) == 5:
+                onePart[4] = str(3.6 * float(onePart[4]))
                 log_data.append(onePart)
     for t in log_data:
         l = list(t[1])

@@ -134,9 +134,10 @@ function reloadLogData () {
                 li.setAttribute('time', item[2]);
                 li.setAttribute('longti', item[3]);
                 li.setAttribute('lati', item[4]);
+                li.setAttribute('speed', item[5]);
                 var label = document.createElement('label');
                 var span = document.createElement('span');
-                span.innerHTML = item[0] + '&emsp;' + item[1] + '&emsp;' + item[2] + '<br>经度: ' + item[3] + '<br>纬度: ' + item[4];
+                span.innerHTML = item[0] + '&emsp;' + item[1] + '&emsp;' + item[2] + '<br>经度: ' + item[3] + '<br>纬度: ' + item[4] + '<br>速度: ' + item[5];
                 label.appendChild(span);
                 label.innerHTML += '<br>';
                 li.appendChild(label);
