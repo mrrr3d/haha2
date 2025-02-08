@@ -5,7 +5,7 @@ from django.http import JsonResponse
 import os
 
 def get_log_data():
-    os.system("cat ~/andlog | tail -n 1000 | cut -d ':' -f 2 > tmplog")
+    os.system("cat ~/andlog | tail -n 2000 | cut -d ':' -f 2 > tmplog")
     log_data = []
     with open ('tmplog', 'r') as f:
         lines = f.readlines()
