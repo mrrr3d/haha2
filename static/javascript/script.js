@@ -113,19 +113,42 @@ function trafficButton () {
     }
 }
 
+function getOldData () {
+    var liElements = document.querySelectorAll('ul li');
+    var data = [];
+    
+    liElements.forEach(function(item) {
+        var num = item.getAttribute('num');
+        var brand = item.getAttribute('brand');
+        var time = item.getAttribute('time');
+        var longti = item.getAttribute('longti');
+        var lati = item.getAttribute('lati');
+        var speed = item.getAttribute('speed');
+
+        data.push([num, brand, time, longti, lati, speed]);
+    });
+
+    return data;
+}
+
 function reloadLogData () {
+    var firstItem = document.getElementById('item_1');
+    var firstTime = firstItem ? firstItem.getAttribute('time') : '0';
+    console.log(firstTime);
     var xhr = new XMLHttpRequest();
     var timestamp = (new Date()).getTime();
-    xhr.open('GET', '/getloc/reload_log_data/?timestamp=' + timestamp, true);
+    xhr.open('GET', '/getloc/reload_log_data/?timestamp=' + timestamp + '&firstTime=' + firstTime, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             clearChooseItems(0);
-            var data = JSON.parse(xhr.responseText);
             var ul = document.querySelector("ul");
+            var newdata = JSON.parse(xhr.responseText);
+            var olddata = getOldData();
+            var alldata = newdata.concat(olddata);
             ul.innerHTML = '';
-            for (var i = 0;i < data.length;i ++) {
-                let item = data[i];
+            for (var i = 0;i < Math.min(alldata.length, 2000);i ++) {
+                let item = alldata[i];
                 let li = document.createElement('li');
                 li.setAttribute('id', 'item_' + item[0]);
                 li.setAttribute('selected_flag', 'false');
