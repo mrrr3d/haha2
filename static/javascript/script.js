@@ -148,7 +148,8 @@ function reloadLogData () {
             var alldata = newdata.concat(olddata);
             ul.innerHTML = '';
             for (var i = 0;i < Math.min(alldata.length, 2000);i ++) {
-                let item = alldata[i];
+                alldata[i][0] = i + 1;
+		let item = alldata[i];
                 let li = document.createElement('li');
                 li.setAttribute('id', 'item_' + item[0]);
                 li.setAttribute('selected_flag', 'false');
